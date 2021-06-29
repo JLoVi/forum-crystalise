@@ -1,0 +1,10 @@
+/*
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block
+  # cache-control: max-age=0
+  # cache-control: no-cache
+  # cache-control: no-store
+  # cache-control: must-revalidate
+/crystal/crystals/*
+  cache-control: public
+  cache-control: max-age=31536000

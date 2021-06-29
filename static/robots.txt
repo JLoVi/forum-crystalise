@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /legal
+Disallow: /en/impressum
+Disallow: /privacy
+Disallow: /en/privacy
+Disallow: /disclaimer
+Disallow: /en/disclaimer

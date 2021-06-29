@@ -1,0 +1,12 @@
+/* Webfont: NimbusSansNovusT-RegularItalic */@font-face {
+    font-family: 'NimbusSansNovusT';
+    src: url('NimbusSansNovusT-RegularItalic.eot'); /* IE9 Compat Modes */
+    src: url('NimbusSansNovusT-RegularItalic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('NimbusSansNovusT-RegularItalic.woff') format('woff'), /* Modern Browsers */
+         url('NimbusSansNovusT-RegularItalic.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('NimbusSansNovusT-RegularItalic.svg#NimbusSansNovusT-RegularItalic') format('svg'); /* Legacy iOS */
+    font-style: italic;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+

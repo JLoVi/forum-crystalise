@@ -1,0 +1,120 @@
+<template>
+  <div
+    id="nav-icon"
+    :class="{'open': isOpen, '': !isOpen, 'w-40px': minified, 'w-50px': !minified}"
+    @click="toggle"
+  >
+    <span class="bg-white" />
+    <span class="bg-white" />
+    <span class="bg-white" />
+    <span class="bg-white" />
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    minified: {
+      type: Boolean,
+      required: false
+    }
+  },
+  data() {
+    return {
+      isOpen: false
+    }
+  },
+  methods: {
+    toggle() {
+      this.isOpen = !this.isOpen
+      this.$emit('toggle')
+    },
+    passiveToggle() {
+      this.isOpen = !this.isOpen
+    },
+    setHamburger(value) {
+      this.isOpen = value
+    }
+  }
+}
+</script>
+
+<style scoped>
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#nav-icon{
+  /* width: 50px; */
+  height: 30px;
+  position: relative;
+  /* margin: 50px auto; */
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: .5s ease-in-out;
+  -moz-transition: .5s ease-in-out;
+  -o-transition: .5s ease-in-out;
+  transition: .5s ease-in-out;
+  cursor: pointer;
+}
+
+#nav-icon span {
+  display: block;
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  /* background: #d3531a; */
+  border-radius: 9px;
+  opacity: 1;
+  left: 0;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: .25s ease-in-out;
+  -moz-transition: .25s ease-in-out;
+  -o-transition: .25s ease-in-out;
+  transition: .25s ease-in-out;
+}
+
+#nav-icon span:nth-child(1) {
+  top: 0px;
+}
+
+#nav-icon span:nth-child(2),#nav-icon span:nth-child(3) {
+  top: 18px;
+}
+
+#nav-icon span:nth-child(4) {
+  top: 36px;
+}
+
+#nav-icon.open span:nth-child(1) {
+  top: 18px;
+  width: 0%;
+  left: 50%;
+}
+
+#nav-icon.open span:nth-child(2) {
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+#nav-icon.open span:nth-child(3) {
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+
+#nav-icon.open span:nth-child(4) {
+  top: 18px;
+  width: 0%;
+  left: 50%;
+}
+</style>

@@ -1,0 +1,16 @@
+/* @import "tailwindcss/preflight"; */
+
+/* @import "tailwindcss/components"; */
+
+/* @import "tailwindcss/utilities"; */
+
+@import "./components/nav.pcss";
+@import "./animations.pcss";
+@import "./backgrounds.pcss";
+@import "./shame.pcss";
+
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
