@@ -28,34 +28,63 @@
         FORUM
       </h1>
 
-      <div class="absolute midlev flex flex-col items-center justify-between h-32">
-        <div
-          class="form-group relative"
-          :class="{'shadow-white': focusedElement === 'name', 'shadow-red form-group--error': $v.username.$error }"
-        >
-          <label class="form__label">Set your username</label>
-          <input
-            v-model.trim="$v.username.$model"
-            class="form__input"
-            placeholder="..."
-            type="text"
-            @focus="focusedElement = 'name'"
-            @blur="focusedElement = ''"
+      <div class="centered_form">
+        <div>
+          <div
+            class="form-group relative"
+            :class="{'shadow-white': focusedElement === 'name', 'shadow-red form-group--error': $v.username.$error }"
           >
+            <label class="form__label">Set your username</label>
+            <input
+              v-model.trim="$v.username.$model"
+              class="form__input"
+              placeholder="..."
+              type="text"
+              @focus="focusedElement = 'name'"
+              @blur="focusedElement = ''"
+            >
+          </div>
+          <div v-if="!$v.username.required" class="error">
+            Field is required
+          </div>
+          <div v-if="!$v.username.minLength" class="error">
+            Name must have at least {{ $v.username.$params.minLength.min }} letters.
+          </div>
+          <div v-if="!$v.username.maxLength" class="error">
+            Name must have at most {{ $v.username.$params.maxLength.max }} letters.
+          </div>
+          <div v-if="!$v.username.isUnique" class="error">
+            This username is already registered.
+          </div>
         </div>
-        <div v-if="!$v.username.required" class="error">
-          Field is required
-        </div>
-        <div v-if="!$v.username.minLength" class="error">
-          Name must have at least {{ $v.username.$params.minLength.min }} letters.
-        </div>
-        <div v-if="!$v.username.maxLength" class="error">
-          Name must have at most {{ $v.username.$params.maxLength.max }} letters.
-        </div>
-        <div v-if="!$v.username.isUnique" class="error">
-          This username is already registered.
+
+        <div>
+          <div
+            class="form-group relative"
+            :class="{'shadow-white': focusedElement === 'password', 'shadow-red form-group--error': $v.password.$error }"
+          >
+            <label class="form__label">Password</label>
+            <input
+              v-model.trim="$v.password.$model"
+              class="form__input"
+              placeholder="..."
+              type="password"
+              @focus="focusedElement = 'password'"
+              @blur="focusedElement = ''"
+            >
+          </div>
+          <div v-if="!$v.password.required" class="error">
+            Field is required
+          </div>
+          <div v-if="!$v.password.minLength" class="error">
+            Name must have at least {{ $v.username.$params.minLength.min }} letters.
+          </div>
+          <div v-if="!$v.password.maxLength" class="error">
+            Name must have at most {{ $v.username.$params.maxLength.max }} letters.
+          </div>
         </div>
       </div>
+
       <!-- @click="loginAction" -->
       <button
         :class="submitButtonClasses"
@@ -88,6 +117,7 @@ export default {
   data() {
     return {
       username: '',
+      password: '',
       name: '',
       focusedElement: '',
       submitting: false,
@@ -116,6 +146,11 @@ export default {
         //   }, 150 + Math.random() * 300)
         // })
       }
+    },
+    password: {
+      required,
+      minLength: minLength(2),
+      maxLength: maxLength(20)
     }
   },
   computed: {
@@ -265,6 +300,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.centered_form {
+  position: absolute;
+  top: 20%;
+}
 .outer-border {
   /* border: 2px solid black; */
   position: relative;
