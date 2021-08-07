@@ -34,7 +34,7 @@
             class="form-group relative"
             :class="{'shadow-white': focusedElement === 'name', 'shadow-red form-group--error': $v.username.$error }"
           >
-            <label class="form__label">Set your username</label>
+            <label class="form__label">Username</label>
             <input
               v-model.trim="$v.username.$model"
               class="form__input"
@@ -52,9 +52,6 @@
           </div>
           <div v-if="!$v.username.maxLength" class="error">
             Name must have at most {{ $v.username.$params.maxLength.max }} letters.
-          </div>
-          <div v-if="!$v.username.isUnique" class="error">
-            This username is already registered.
           </div>
         </div>
 
@@ -130,22 +127,22 @@ export default {
     username: {
       required,
       minLength: minLength(2),
-      maxLength: maxLength(20),
-      isUnique(value) {
-        // standalone validator ideally should not assume a field is required
-        // console.log('? isUniquevalue', value, ' this.username ', this.username) // eslint-disable-line no-console
-        if (value === '') return true
-        // return !this.contains(this.username, this.otherUsers)
-        return (typeof value === 'string' && !this.contains(value, this.otherUsers))
+      maxLength: maxLength(20)
+      //   isUnique(value) {
+      //     // standalone validator ideally should not assume a field is required
+      //     // console.log('? isUniquevalue', value, ' this.username ', this.username) // eslint-disable-line no-console
+      //     if (value === '') return true
+      //     // return !this.contains(this.username, this.otherUsers)
+      //     return (typeof value === 'string' && !this.contains(value, this.otherUsers))
 
-        // // simulate async call, fail for all logins with even length
-        // return new Promise((resolve, reject) => {
-        //   setTimeout(() => {
-        //     console.log('? isUniquevalue', value, ' this.username ', this.username, ' contains? ', !this.contains(value, this.otherUsers)) // eslint-disable-line no-console
-        //     resolve(typeof value === 'string' && !this.contains(value, this.otherUsers))
-        //   }, 150 + Math.random() * 300)
-        // })
-      }
+    //     // // simulate async call, fail for all logins with even length
+    //     // return new Promise((resolve, reject) => {
+    //     //   setTimeout(() => {
+    //     //     console.log('? isUniquevalue', value, ' this.username ', this.username, ' contains? ', !this.contains(value, this.otherUsers)) // eslint-disable-line no-console
+    //     //     resolve(typeof value === 'string' && !this.contains(value, this.otherUsers))
+    //     //   }, 150 + Math.random() * 300)
+    //     // })
+    //   }
     },
     password: {
       required,
@@ -241,29 +238,39 @@ export default {
       }
       // console.log('username: ') // eslint-disable-line no-console
       // console.log(this.username) // eslint-disable-line no-console
-      if (this.isUsernameUnique()) {
-        this.submitForm()
-      } else {
-        console.log('username already taken') // eslint-disable-line no-console
-      }
+      // if (this.isUsernameUnique()) {
+      this.submitForm()
+      // } else {
+      //   console.log('username already taken') // eslint-disable-line no-console
+      // }
     },
     async submitForm() {
       console.log('submitForm vvvvvv') // eslint-disable-line no-console
       this.submitting = true
       this.error = false
+      // const d = {
+      //   password: this.password,
+      //   username: this.username
+      // }
+      // // eslint-disable-next-line no-console
+      // console.log(d) // eslint-disable-next-line no-console
+
       try {
         const data = await this.$store.dispatch('app/createUser', {
-          username: this.username
+          username: this.username,
+          password: this.password
         })
         this.submitting = false
         this.isSubmitted = true
         this.formpresent = false
 
-        // console.log('user created in db - usr obj received: ', data) // eslint-disable-line no-console
+        console.log('user created in db - usr obj received: ', data) // eslint-disable-line no-console
         if (data.error !== null && data.success === false) {
           console.error('user could not be created ', data.error) // eslint-disable-line no-console
           return
         }
+
+        console.log('RETURNED') // eslint-disable-line no-console
 
         this.$store.dispatch('auth/authenticateUser', data)
         if (this.$store.getters['auth/isAuthenticated']) {
