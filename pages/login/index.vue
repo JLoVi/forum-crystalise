@@ -79,6 +79,11 @@
           <div v-if="!$v.password.maxLength" class="error">
             Name must have at most {{ $v.username.$params.maxLength.max }} letters.
           </div>
+          <div v-if="getErrorMessage && !focusedElement" class="absolute full-width">
+            <p class="red_color center_text">
+              {{ getErrorMessage }}
+            </p>
+          </div>
         </div>
       </div>
 
@@ -120,7 +125,8 @@ export default {
       submitting: false,
       isSubmitted: false,
       error: false,
-      formpresent: true
+      formpresent: true,
+      submitted_error: null
     }
   },
   validations: {
@@ -193,6 +199,9 @@ export default {
       },
       storeUserName: function (state) {
         return this.$store.getters['auth/getToken'].username
+      },
+      getErrorMessage: function (state) {
+        return this.submitted_error
       }
     }),
     filteredList() {
@@ -262,13 +271,15 @@ export default {
         })
         this.submitting = false
         this.isSubmitted = true
-        this.formpresent = false
-
+        this.submitted_error = null
         console.log('user created in db - usr obj received: ', data) // eslint-disable-line no-console
         if (data.error !== null && data.success === false) {
+          this.submitted_error = data.error
           console.error('user could not be created ', data.error) // eslint-disable-line no-console
           return
         }
+
+        this.formpresent = false
 
         console.log('RETURNED') // eslint-disable-line no-console
 
@@ -310,6 +321,14 @@ export default {
 .centered_form {
   position: absolute;
   top: 20%;
+}
+
+.red_color{
+  color:red;
+}
+
+.center_text {
+  text-align: center;
 }
 .outer-border {
   /* border: 2px solid black; */
@@ -496,4 +515,9 @@ export default {
     display: block;
     font-family: "Lato", sans-serif;
 }
+
+.full-width {
+  width: 100%;
+}
+
 </style>
